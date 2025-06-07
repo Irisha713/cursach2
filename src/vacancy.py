@@ -1,6 +1,8 @@
 from dataclasses import asdict, dataclass
+from functools import total_ordering
 
 
+@total_ordering
 @dataclass
 class Vacancy:
     """Класс для предоставления вакансии"""
@@ -21,8 +23,15 @@ class Vacancy:
             self.salary = 0
 
 
-    def comparison(self, other):
-        """Сравнение зарплат у вакансий"""
+    def __lt__(self, other):
+        """Сравнение вакансий по зарплате (<)"""
+        if not isinstance(other, Vacancy):
+            raise TypeError("Сравнивать можно только объекты класса Vacancy")
         return self.salary < other.salary
 
 
+    def __eq__(self, other):
+        """Сравнение вакансий по зарплате (==)"""
+        if not isinstance(other, Vacancy):
+            raise TypeError("Сравнивать можно только объекты класса Vacancy")
+        return self.salary == other.salary
